@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>index</title>
+    <script src="js/jquery-3.3.1.js"></script>
+    <script>
+        $(function () {
+            $("button:contains('查询')").click(function () {
+                var id = $(this).prev().val();
+                if (id == ""||id==null){
+                    $.ajax({
+                        type: "GET",
+                        url:"user",
+                        data: "",
+                        dataType: "text",
+                        success: function (msg) {
+                            alert(msg);
+                        }
+                    });
+                }else{
+                    $.ajax({
+                        type: "GET",
+                        url:"user/"+id,
+                        data: "",
+                        dataType: "text",
+                        success: function (msg) {
+                            alert(msg);
+                        }
+                    });
+                }
+            });
+
+            $("button:contains('添加/修改用户-POST')").click(function () {
+                var id = $('#uid').val();
+                if (id == ""||id==null){
+                    $.ajax({
+                        type: "POST",
+                        url: "user",
+                        data: {username:$("#username").val(),password:$("#password").val(),name:$("#name").val()},
+                        dataType: "text",
+                        success: function (msg) {
+                            alert(msg);
+                        }
+                    });
+                }else{
+                    $.ajax({
+                        type: "POST",
+                        url: "user",
+                        data: {id:id,username:$("#username").val(),password:$("#password").val(),name:$("#name").val()},
+                        dataType: "text",
+                        success: function (msg) {
+                            alert(msg);
+                        }
+                    });
+                }
+
+            });
+
+            $("button:contains('删除用户')").click(function () {
+                var id = $(this).prev().val();
+
+                    $.ajax({
+                        type: "DELETE",
+                        url:"user/"+id,
+                        data: "",
+                        dataType: "text",
+                        success: function (msg) {
+                            alert(msg);
+                        }
+                    });
+
+            });
+
+
+            $("button:contains('添加/修改用户-PUT')").click(function () {
+                var id = $('#uid1').val();
+                if (id == ""||id==null){
+                    $.ajax({
+                        type: "PUT",
+                        url: "user",
+                        data: {username:$("#username1").val(),password:$("#password1").val(),name:$("#name1").val()},
+                        dataType: "text",
+                        success: function (msg) {
+                            alert(msg);
+                        }
+                    });
+                }else{
+                    $.ajax({
+                        type: "PUT",
+                        url: "user",
+                        data: {id:id,username:$("#username1").val(),password:$("#password1").val(),name:$("#name1").val()},
+                        dataType: "text",
+                        success: function (msg) {
+                            alert(msg);
+                        }
+                    });
+                }
+
+            });
+        })
+
+
+    </script>
+</head>
+<body>
+    id:<input type="text" >
+    <button>查询</button><br>
+
+    id:<input type="text" name="id" id="uid"/>
+    用户名:<input type="text" name="username" id="username"/>
+    密码:<input type="text" name="password" id="password"/>
+    真实姓名:<input type="text" name="name" id="name"/>
+    <button>添加/修改用户-POST</button><br>
+
+
+    id:<input type="text" />
+    <button>删除用户</button><br>
+
+
+    id:<input type="text" name="id" id="uid1"/>
+    用户名:<input type="text" name="username1" id="username1"/>
+    密码:<input type="text" name="password1" id="password1"/>
+    真实姓名:<input type="text" name="name" id="name1"/>
+    <button>添加/修改用户-PUT</button><br>
+</body>
+</html>
