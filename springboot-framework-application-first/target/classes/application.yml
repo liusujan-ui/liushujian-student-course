@@ -1,9 +1,0 @@
-
-person:
-  name: zhangsan
-  sex: 男
-  age: 19
-  isMarried: tru
-  friend: {name: lisi,sex: 女}
-  pets: [小猫,小狗,小驴]
-  friends: [{name: lisi,sex: 女},{name: wangwu,sex: 男}]
