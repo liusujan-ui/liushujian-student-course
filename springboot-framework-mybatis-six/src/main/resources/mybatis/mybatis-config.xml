@@ -3,5 +3,9 @@
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 
 <configuration>
-
+    <!-- 设置mybatis的全局配置  -->
+    <settings>
+        <!-- 将下划线自动映射为驼峰emp_name对应empName-->
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+    </settings>
 </configuration>
