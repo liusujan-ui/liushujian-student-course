@@ -8,9 +8,14 @@ import org.springframework.beans.factory.annotation.Value;
 @ToString
 public class Friend {
     @Value("${person.name}")
-    private String name;
+    private static String name;
     @Value("${person.sex}")
     private String sex;
     @Value("#{2*11}")
     private int age;
+
+
+
+
+
 }
