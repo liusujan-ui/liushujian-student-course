@@ -14,7 +14,7 @@ import java.util.List;
 @Data
 @ToString
 @Component
-@ConfigurationProperties(prefix = "person1")
+@ConfigurationProperties(prefix = "person2")
 @PropertySource("classpath:person.properties")
 public class Person {
 
