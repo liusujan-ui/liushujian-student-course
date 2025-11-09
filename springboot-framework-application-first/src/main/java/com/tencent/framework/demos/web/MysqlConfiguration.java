@@ -21,6 +21,7 @@ public class MysqlConfiguration {
 
 
 
+//    添加一些注释
     public void func(){
         logFactory.info(url);
         return;
