@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div align="center">
+        <table border="1" cellpadding="0" cellspacing="0" width="60%">
+            <tr>
+                <th>empno</th>
+                <th>ename</th>
+                <th>job</th>
+                <th>sal</th>
+                <th>mgr</th>
+                <th>comm</th>
+                <th>deptno</th>
+            </tr>
+            <tr th:each="emp:${pages.getContent()}">
+                <th th:text="${emp.empno}">1001</th>
+                <th th:text="${emp.ename}">zhangsan</th>
+                <th th:text="${emp.job}">clerk</th>
+                <th th:text="${emp.sal}">3000</th>
+                <th th:text="${emp.mgr}">1001</th>
+                <th th:text="${emp.comm}">300</th>
+                <th th:text="${emp.deptno}">10</th>
+            </tr>
+        </table>
+        <p>当前 <span th:text="${pages.getNumber()+1}">1</span> 页，总<span th:text="${pages.getTotalPages()}">10</span> 页，共<span th:text="${pages.getTotalElements()}">100</span> 条记录</p>
+        <a th:href="@{/emp/findAll}">首页</a>
+        <a th:href="@{/emp/findAll(pageNum=${pages.hasPrevious()}?${pages.previousPageable().getPageNumber()}:0)}">上一页</a>
+        <a th:href="@{/emp/findAll(pageNum=${pages.hasNext()}?${pages.nextPageable().getPageNumber()}:${pages.getTotalPages()-1})}">下一页</a>
+        <a th:href="@{/emp/findAll(pageNum=${pages.getTotalPages()-1})}">尾页</a>
+    </div>
+</body>
+</html>
