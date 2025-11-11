@@ -1,4 +1,4 @@
-package com.tencent.springbootframeworkpageseven;
+package com.tencent.page;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
