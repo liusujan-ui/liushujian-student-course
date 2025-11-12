@@ -55,7 +55,7 @@
                 <version>${spring-boot.version}</version>
                 <configuration>
                     <mainClass>
-                        com.tencent.springbootfronttemplatesfreemakertwo.SpringbootFrontTemplatesFreeMakerTwoApplication
+                        com.tencent.freemaker.SpringbootFrontTemplatesFreeMakerTwoApplication
                     </mainClass>
                     <skip>true</skip>
                 </configuration>

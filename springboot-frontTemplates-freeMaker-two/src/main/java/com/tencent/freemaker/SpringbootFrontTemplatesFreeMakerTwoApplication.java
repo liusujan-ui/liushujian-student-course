@@ -1,4 +1,4 @@
-package com.tencent.springbootfronttemplatesfreemakertwo;
+package com.tencent.freemaker;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

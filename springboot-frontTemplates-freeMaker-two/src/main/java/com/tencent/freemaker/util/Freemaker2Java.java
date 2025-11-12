@@ -3,7 +3,7 @@
 // (powered by FernFlower decompiler)
 //
 
-package com.tencent.springbootfronttemplatesfreemakertwo.util;
+package com.tencent.freemaker.util;
 
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -20,19 +20,18 @@ public class Freemaker2Java {
     private static final String TEMPLATE_PATH = "src/main/resources/templates";
     private static final String CLASS_PATH = "src/main/java/com/tencent/freemaker/javaTemplates";
 
-    public Freemaker2Java() {
-    }
+
 
     public static void main(String[] args) throws IOException, TemplateException {
         Configuration configuration = new Configuration(Configuration.VERSION_2_3_28);
         configuration.setDefaultEncoding("UTF-8");
-        configuration.setDirectoryForTemplateLoading(new File("src/main/resources/templates"));
+        configuration.setDirectoryForTemplateLoading(new File(TEMPLATE_PATH));
         HashMap<Object, Object> dataMap = new HashMap();
         dataMap.put("classPath", "com.tencent.freemaker.javaTemplates");
         dataMap.put("className", "HelloFreeMaker");
         dataMap.put("helloworld", "这是通过freemarker自动生成的代码！！！");
         Template template = configuration.getTemplate("hello.ftl");
-        File file = new File("src/main/java/com/tencent/freemaker/javaTemplates\\HelloFreeMaker.java");
+        File file = new File(CLASS_PATH+"\\"+"HelloFreeMaker.java");
         Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file)));
         template.process(dataMap, writer);
         System.out.println("文件创建成功！！！");
