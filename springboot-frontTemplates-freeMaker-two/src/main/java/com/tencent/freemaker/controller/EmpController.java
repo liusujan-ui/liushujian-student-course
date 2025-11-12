@@ -1,12 +1,12 @@
-package com.tencent.jsp.controller;
+package com.tencent.freemaker.controller;
 
-import com.tencent.jsp.entity.Emp;
-import com.tencent.jsp.repository.EmpRepository;
+
+import com.tencent.freemaker.entity.Emp;
+import com.tencent.freemaker.repository.EmpRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -18,12 +18,14 @@ public class EmpController {
 
     @Resource
     private EmpRepository empRepository;
-    @RequestMapping("/findAll")
-    public String findAll(HttpSession session) {
+
+
+
+    @RequestMapping("/show")
+    public String findAll1(HttpSession session) {
         List<Emp> all = empRepository.findAll();
-        session.setAttribute("emps", all);
+        System.out.println(all.size());
+        session.setAttribute("emplist", all);
         return "list";
     }
-
-
 }
