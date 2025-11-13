@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>登陆页面</title>
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+    <!-- 新 Bootstrap4 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/css/bootstrap.min.css">
+    <!-- popper.min.js 用于弹窗、提示、下拉菜单 -->
+    <script src="https://cdn.staticfile.org/popper.js/1.12.5/umd/popper.min.js"></script>
+    <!-- 最新的 Bootstrap4 核心 JavaScript 文件 -->
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h2>登录</h2>
+        <form action="#" th:action="@{/user/login}">
+            <div class="form-group has-feedback">
+                <label for="用户名">用户名:</label>
+                <input th:value="${username}" type="text" name="username"  class="form-control" id="username" placeholder="请输入用户名">
+            </div>
+            <div class="form-group has-feedback">
+                <label for="pwd">密码:</label>
+                <input type="password" name="password" class="form-control" id="pwd" placeholder="请输入密码">
+                <span th:text="${login_error}" class="glyphicon glyphicon-envelope form-control-feedback"></span>
+            </div>
+            <div class="form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" type="checkbox"> 记住我
+                </label>
+            </div>
+            <button type="submit" class="btn btn-primary">登录</button>
+            <button type="button" class="btn btn-primary">注册</button>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>明细页面</title>
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+    <!-- 新 Bootstrap4 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/css/bootstrap.min.css">
+    <!-- popper.min.js 用于弹窗、提示、下拉菜单 -->
+    <script src="https://cdn.staticfile.org/popper.js/1.12.5/umd/popper.min.js"></script>
+    <!-- 最新的 Bootstrap4 核心 JavaScript 文件 -->
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/js/bootstrap.min.js"></script>
+    <script>
+        $(function(){
+            $("button:contains('删除')").click(function(){
+                $.ajax({
+                    type: "DELETE",
+                    url: "../product/"+this.id,
+                    data: "",
+                    dataType:"text",
+                    success: function(msg){
+                        alert(msg)
+                    }
+                });
+                $(this).parent().parent().remove();
+            });
+
+            $("button:contains('修改')").click(function(){
+                //弹出修改窗口
+                $('#myModal').modal();
+                // 把User对象转成json对象
+                $.ajax({
+                    type: "GET",
+                    url: "../product/"+$(this).attr("id"),
+                    data: "",
+                    dataType:"json",
+                    success: function(msg){
+                        $('#txt_id').val(msg['id']);
+                        $('#txt_name').val(msg['name']);
+                        $('#txt_description').val(msg['description']);
+                        $('#txt_price').val(msg['price']);
+                        $('#txt_pic').val(msg['pic']);
+                    }
+                });
+            });
+        })
+        //添加的方法
+        function add() {
+            //弹出新建窗口
+            $('#myModal1').modal();
+        }
+    </script>
+</head>
+<body>
+<div class="container">
+    <table class="table table-dark table-hover">
+        <thead>
+            <tr>
+                <th>id</th>
+                <th>手机名称</th>
+                <th>手机描述</th>
+                <th>手机价格</th>
+                <th>手机图片</th>
+                <th>删除</th>
+                <th>修改</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="product:${list}">
+                <td th:text="${product.id}"></td>
+                <td th:text="${product.name}"></td>
+                <td th:text="${product.description}"></td>
+                <td th:text="${product.price}"></td>
+                <td th:text="${product.pic}"></td>
+                <th><button th:id="${product.id}" onclick="return confirm('你确定要删除这条数据吗？')">删除</button></th>
+                <th><button th:id="${product.id}">修改</button></th>
+            </tr>
+        </tbody>
+    </table>
+    <button onclick="add()">添加</button>
+</div>
+    <!--添加页面-->
+    <div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form method="post" action="#" th:action="@{../product/add}">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel1">添加</h4>
+                    </div>
+                    <div class="modal-body">
+<!--                        <input type="text" name="id" id="txt_id1" hidden>-->
+                        <div class="form-group">
+                            <label for="txt_name1">手机名称</label>
+                            <input type="text" name="name" class="form-control" id="txt_name1" placeholder="手机名称">
+                        </div>
+                        <div class="form-group">
+                            <label for="txt_description1">手机描述</label>
+                            <input type="text" name="description" class="form-control" id="txt_description1" placeholder="手机描述">
+                        </div>
+                        <div class="form-group">
+                            <label for="txt_price1">手机价格</label>
+                            <input type="text" name="price" class="form-control" id="txt_price1" placeholder="手机价格">
+                        </div>
+                        <div class="form-group">
+                            <label for="txt_pic1">手机图片</label>
+                            <input type="text" name="pic" class="form-control" id="txt_pic1" placeholder="手机图片">
+                        </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span>关闭</button>
+                        <input type="submit" value="保存" id="btn_submit1" class="btn btn-primary" /><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>
+                    </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+<!--修改页面-->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form method="post" action="#" th:action="@{../product/update}">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">修改</h4>
+                    </div>
+                    <div class="modal-body">
+                        <input type="text" name="id" id="txt_id" hidden>
+                        <div class="form-group">
+                            <label for="txt_name">手机名称</label>
+                            <input type="text" name="name" class="form-control" id="txt_name" placeholder="手机名称">
+                        </div>
+                        <div class="form-group">
+                            <label for="txt_description">手机描述</label>
+                            <input type="text" name="description" class="form-control" id="txt_description" placeholder="手机描述">
+                        </div>
+                        <div class="form-group">
+                            <label for="txt_price">手机价格</label>
+                            <input type="text" name="price" class="form-control" id="txt_price" placeholder="手机价格">
+                        </div>
+                        <div class="form-group">
+                            <label for="txt_pic">手机图片</label>
+                            <input type="text" name="pic" class="form-control" id="txt_pic" placeholder="手机图片">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span>关闭</button>
+                        <input type="submit" value="保存" id="btn_submit" class="btn btn-primary" /><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
