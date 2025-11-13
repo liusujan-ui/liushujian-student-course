@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css" th:inline="css" th:with="color='red',fontSize='100px'">
+        p{
+            color:/*[[${color}]]*/blue;
+            font-size:/*[(${fontSize})]*/200px;
+        }
+    </style>
+    <script th:inline="javascript">
+        // var name=[[${name}]];
+        // var userName=[[${user.name}]];
+        // var userAge=[[${user.age}]];
+        // var userPass=[[${user.pass}]];
+        // alert("name:"+name+",userName:"+userName+",userAge:"+userAge+",userPass:"+userPass);
+
+        // 动静态分离技术
+        var msg=/*[[${name}]]*/'66666';
+        // alert(msg);
+
+    //     js内联标签的序列化演示
+        var name=[[${name}]]; //字符串类型
+        var user=[[${user}]]; // 对象类型
+        var userAge=[[${user.age}]]; //整形
+        var flag=[[${flag}]]; //布尔
+        var list=[[${list}]];//集合
+
+        alert("name:" +typeof name);
+        alert("user:" +typeof user);
+        alert("userAge:" +typeof userAge);
+        alert("flag:" +typeof flag);
+        alert("list:" +list);
+    </script>
+</head>
+<body>
+   <p>hello China!!!</p>
+</body>
+</html>

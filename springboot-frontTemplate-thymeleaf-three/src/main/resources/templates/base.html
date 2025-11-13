@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>ctx上下文对象</h1>
+<p th:text="${#ctx}"></p>
+<h1>ctx中保存在map中的数据</h1>
+<p th:text="${#ctx.getVariable('a')}"></p>
+<h1>vars上下文对象</h1>
+<p th:text="${#vars}"></p>
+<h1>获取到locale区域对象</h1>
+<p th:text="${#locale}"></p>
+<p th:text="${#locale.country}"></p>
+<h1>param的使用</h1>
+<p th:text="|size:${param.size()},a:${param.a}|"></p>
+<h1>两个session的使用</h1>
+<p th:text="${#session.getAttribute('session')}"></p>
+<p th:text="${session.session}"></p>
+</body>
+</html>

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
-<body>
+<body th:inline="none">
 <!--文本属性-字符串的拼接，写法1-->
     <p th:text="|welcome to china,${text}|"></p>
 
@@ -17,5 +17,11 @@
 <!--utext和text的区别-->
     <p th:text="${text}"></p>
     <p th:utext="${utext}"></p>
+<!--body标签中默认开启内联标签-->
+<!--内联写法1-->
+<p>[[|welcome to china,${text}|]]</p>
+
+<!--内联写法2-->
+<p>[('welcome to china,'+${text})]</p>
 </body>
 </html>

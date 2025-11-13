@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!--if判断：如果条件为真就进行展示-->
+    <a th:if="${flag eq 'yes'}" th:href="@{${baidu}}">baidu1</a>
+    <a th:if="${flag eq 'yes'}" th:href="@{{baidusite}(baidusite=${baidu})}">baidu2</a>
+    <a th:unless="${flag eq 'no'}" th:href="@{${baidu}}">baidu3</a>
+
+    <div th:switch="${age}">
+        <p th:case="18">18岁</p>
+        <p th:case="19">19岁</p>
+        <p th:case="20">20岁</p>
+        <p th:case="*">未知岁数</p>
+    </div>
+</body>
+</html>
