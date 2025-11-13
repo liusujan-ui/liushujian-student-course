@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!--文本属性-字符串的拼接，写法1-->
+    <p th:text="|welcome to china,${text}|"></p>
+
+<!--文本属性-字符串的拼接，写法2-->
+<p th:text="'welcome to china,'+${text}"></p>
+
+<!--文本属性:id和value-->
+    <input th:value="${value}" th:id="${id}">
+<br>
+<!--utext和text的区别-->
+    <p th:text="${text}"></p>
+    <p th:utext="${utext}"></p>
+</body>
+</html>
