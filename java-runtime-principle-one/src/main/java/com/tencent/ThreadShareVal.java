@@ -1,7 +1,5 @@
 package com.tencent;
 
-import java.io.File;
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
@@ -15,9 +13,11 @@ import java.nio.file.Paths;
  * 3.共享变量
  * 4.jdk提供的线程协调API
  */
-public class Demo6 {
+public class ThreadShareVal {
+    public static String content="空";
+
     public static void main(String[] args) {
-        fun1();
+        fun2();
     }
 
 /*
@@ -56,4 +56,29 @@ public class Demo6 {
 /*
    2 .变量共享
  */
+    public static void fun2(){
+//        线程1-写入数据
+        new Thread(()->{
+            try {
+                while (true){
+                    content="当前时间"+String.valueOf(System.currentTimeMillis());
+                    Thread.sleep(1000L);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }).start();
+
+//        线程2-读取数据
+        new Thread(()->{
+            try {
+                while (true){
+                    Thread.sleep(1000L);
+                    System.out.println(content);
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }).start();
+    }
 }
