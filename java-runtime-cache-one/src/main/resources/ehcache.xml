@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache>
+    <diskStore path="src/main/resources"/>
+
+    <!-- 默认缓存配置 -->
+    <defaultCache
+            maxElementsInMemory="1000"
+            eternal="false"
+            timeToIdleSeconds="300"
+            timeToLiveSeconds="600"
+            overflowToDisk="true"
+            maxElementsOnDisk="100000"
+            diskPersistent="false"
+            diskExpiryThreadIntervalSeconds="120"
+            memoryStoreEvictionPolicy="LRU">
+    </defaultCache>
+
+    <!-- 自定义缓存配置 -->
+    <cache name="simpleCache"
+           maxElementsInMemory="500"
+           eternal="false"
+           timeToIdleSeconds="300"
+           timeToLiveSeconds="600"
+           overflowToDisk="true"
+           maxElementsOnDisk="10000"
+           diskPersistent="false"
+           diskExpiryThreadIntervalSeconds="120"
+           memoryStoreEvictionPolicy="LRU">
+    </cache>
+
+    <cache name="simpleCache1"
+           maxElementsInMemory="1000"
+           eternal="false"
+           timeToIdleSeconds="600"
+           timeToLiveSeconds="1200"
+           overflowToDisk="true"
+           maxElementsOnDisk="50000"
+           diskPersistent="false"
+           diskExpiryThreadIntervalSeconds="120"
+           memoryStoreEvictionPolicy="LRU">
+    </cache>
+
+</ehcache>
