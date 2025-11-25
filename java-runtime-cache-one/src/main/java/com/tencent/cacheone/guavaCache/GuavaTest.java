@@ -1,15 +1,14 @@
-package com.tencent.cacheone.caffeineCache;
+package com.tencent.cacheone.guavaCache;
 
-import com.github.benmanes.caffeine.cache.Caffeine;
-import com.github.benmanes.caffeine.cache.LoadingCache;
-
-
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class CaffeineTest {
+public class GuavaTest {
 
     public static void main(String[] args) throws Exception{
-        CaffeineTest test = new CaffeineTest();
+        GuavaTest test = new GuavaTest();
         test.test();
     }
 
@@ -17,11 +16,14 @@ public class CaffeineTest {
     private static final AtomicInteger atomicInteger = new AtomicInteger(0);
 
     public void test() throws Exception {
-         LoadingCache<String, String> cache = Caffeine.newBuilder()
-                .maximumSize(3)
-                .build(key->{
-                    Thread.sleep(1000);
-                    return atomicInteger.incrementAndGet()+"";
+        final LoadingCache<String, String> cache = CacheBuilder.newBuilder()
+                .maximumSize(500)
+                .build(new CacheLoader<String, String>() {
+                    @Override
+                    public String load(String key) throws Exception {
+                        Thread.sleep(1000);
+                        return atomicInteger.incrementAndGet() + "";
+                    }
                 });
 
         cache.get("test");

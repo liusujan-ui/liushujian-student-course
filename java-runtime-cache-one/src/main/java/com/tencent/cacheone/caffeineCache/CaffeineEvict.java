@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * @author 观自在
- * @description
+ * @description caffeine 操作具有原子性
  * @date 2025-11-24 23:54
  */
 public class CaffeineEvict {
