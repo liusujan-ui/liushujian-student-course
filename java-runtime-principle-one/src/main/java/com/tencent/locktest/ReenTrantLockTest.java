@@ -7,6 +7,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.LockSupport;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
  * @author 观自在
@@ -14,6 +15,10 @@ import java.util.concurrent.locks.LockSupport;
  * @date 2025-12-02 22:45
  */
 public class ReenTrantLockTest implements Lock {
+
+    private static ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
+
+
     AtomicReference<Thread> owner=new AtomicReference<>();
 
     AtomicInteger count=new AtomicInteger();
@@ -21,7 +26,10 @@ public class ReenTrantLockTest implements Lock {
     private LinkedBlockingQueue<Thread> waiters=new LinkedBlockingQueue<>();
 
     public void tryUnlock(){
-
+        lock.writeLock().lock();
+        lock.writeLock().unlock();
+        lock.readLock().lock();
+        lock.readLock().unlock();
     }
     @Override
     public void lock() {
