@@ -1,4 +1,4 @@
-package com.tencent;
+package com.tencent.threadTest;
 
 /**
  * 线程封闭

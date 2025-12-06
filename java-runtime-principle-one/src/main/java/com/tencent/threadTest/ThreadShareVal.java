@@ -1,4 +1,4 @@
-package com.tencent;
+package com.tencent.threadTest;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;

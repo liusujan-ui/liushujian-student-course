@@ -1,7 +1,5 @@
 package com.tencent.util;
 
-import com.tencent.Demo2;
-
 /**
  * @author 观自在
  * @date 2025-11-17 21:34

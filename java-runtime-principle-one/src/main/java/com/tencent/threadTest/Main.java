@@ -1,4 +1,4 @@
-package com.tencent;
+package com.tencent.threadTest;
 
 /**
  * @author 观自在

@@ -1,4 +1,4 @@
-package com.tencent;
+package com.tencent.threadTest;
 
 import com.tencent.util.StopThread;
 
