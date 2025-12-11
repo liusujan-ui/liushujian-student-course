@@ -1,4 +1,4 @@
-package com.tencent.util;
+package com.tencent.springIOCUtil;
 
 import org.dom4j.Attribute;
 import org.dom4j.Document;
