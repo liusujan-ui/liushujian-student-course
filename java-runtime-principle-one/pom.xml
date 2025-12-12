@@ -62,6 +62,11 @@
             <artifactId>xmlbeans</artifactId>
             <version>5.1.1</version> <!-- 请检查最新版本 -->
         </dependency>
+        <dependency>
+            <groupId>cglib</groupId>
+            <artifactId>cglib</artifactId>
+            <version>3.1</version>
+        </dependency>
 
         <dependency>
             <groupId>dom4j</groupId>
