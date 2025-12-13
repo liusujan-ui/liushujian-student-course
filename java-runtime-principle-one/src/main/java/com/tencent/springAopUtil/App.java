@@ -1,5 +1,6 @@
 package com.tencent.springAopUtil;
 
+import com.tencent.springAopUtil.aop.Laop;
 import com.tencent.springAopUtil.config.AppConfig;
 import com.tencent.springAopUtil.service.UserService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -14,7 +15,9 @@ public class App {
     public static void main(String[] args) {
 
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
-        UserService bean = context.getBean(UserService.class);
-        System.out.println(bean.getUserName());
+//        UserService bean = context.getBean(UserService.class);
+        Laop bean = context.getBean(Laop.class);
+//        System.out.println(bean.getUserName());
+        System.out.println(bean.getL());
     }
 }

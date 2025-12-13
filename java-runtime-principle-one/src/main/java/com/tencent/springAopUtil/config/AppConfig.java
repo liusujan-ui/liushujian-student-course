@@ -1,7 +1,7 @@
 package com.tencent.springAopUtil.config;
 
+import com.tencent.springAopUtil.annotation.L;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
 /**
  * @author 观自在
@@ -9,6 +9,7 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
  * @date 2025-12-12 23:08
  */
 @ComponentScan("com.tencent")
-@EnableAspectJAutoProxy
+//@EnableAspectJAutoProxy
+@L
 public class AppConfig {
 }
