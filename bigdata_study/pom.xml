@@ -3,7 +3,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.tencent</groupId>
-    <artifactId>bigdata_study</artifactId>
+    <artifactId>bigdata_study_hadoop_hdfs</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>bigdata_study</name>
     <description>bigdata_study</description>
