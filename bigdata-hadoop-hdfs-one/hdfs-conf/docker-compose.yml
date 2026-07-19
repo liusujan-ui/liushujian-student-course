@@ -1,0 +1,215 @@
+services:
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.4.0
+    container_name: zookeeper
+    ports:
+      - "2181:2181"
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+    restart: always
+
+  kafka:
+    image: confluentinc/cp-kafka:7.4.0
+    container_name: kafka
+    ports:
+      - "9092:9092"
+    depends_on:
+      - zookeeper
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zk:2181
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://127.0.0.1:9092
+    restart: always
+
+  namenode:
+    image: apache/hadoop:3.3.6
+    container_name: namenode
+    user: root
+    ports:
+      - "9000:9000"
+      - "9870:9870"
+    networks:
+      - hadoop-net
+    environment:
+      # 强制指定namenode存储路径
+      HDFS_NAMENODE_DIR: /hadoop/name
+      HDFS_NAMENODE_USER: root
+      HDFS_DATANODE_USER: root
+      HDFS_SECONDARYNAMENODE_USER: root
+      YARN_RESOURCEMANAGER_USER: root
+      YARN_NODEMANAGER_USER: root
+    command: ["hdfs", "namenode"]
+    volumes:
+      - namenode-data:/hadoop/name
+      - ./hadoop-conf/core-site.xml:/opt/hadoop/etc/hadoop/core-site.xml
+      - ./hadoop-conf/hdfs-site.xml:/opt/hadoop/etc/hadoop/hdfs-site.xml
+      - ./hadoop-conf/mapred-site.xml:/opt/hadoop/etc/hadoop/mapred-site.xml
+      - ./hadoop-conf/yarn-site.xml:/opt/hadoop/etc/hadoop/yarn-site.xml
+    restart: always
+
+  datanode:
+    image: apache/hadoop:3.3.6
+    container_name: datanode
+    hostname: datanode
+    user: root
+    ports:
+      - "9864:9864"
+      - "9866:9866"
+      - "9867:9867"
+    networks:
+      - hadoop-net
+    depends_on:
+      - namenode
+    environment:
+      HDFS_NAMENODE_USER: root
+      HDFS_DATANODE_USER: root
+      HDFS_SECONDARYNAMENODE_USER: root
+      YARN_RESOURCEMANAGER_USER: root
+      YARN_NODEMANAGER_USER: root
+      # 强制 DataNode 向 NameNode 注册为 localhost（绕过镜像脚本覆盖）
+      HADOOP_DATANODE_OPTS: "-Ddfs.datanode.hostname=localhost"
+    command: ["hdfs", "datanode"]
+    volumes:
+      - datanode-data:/tmp/hadoop-root/dfs/data
+      - ./hadoop-conf/core-site.xml:/opt/hadoop/etc/hadoop/core-site.xml
+      - ./hadoop-conf/hdfs-site.xml:/opt/hadoop/etc/hadoop/hdfs-site.xml
+      - ./hadoop-conf/mapred-site.xml:/opt/hadoop/etc/hadoop/mapred-site.xml
+      - ./hadoop-conf/yarn-site.xml:/opt/hadoop/etc/hadoop/yarn-site.xml
+    restart: always
+    
+  resourcemanager:
+    image: apache/hadoop:3.3.6
+    container_name: resourcemanager
+    user: root
+    ports:
+      - "8088:8088"
+    networks:
+      - hadoop-net
+    depends_on:
+      - namenode
+    environment:
+      HDFS_NAMENODE_USER: root
+      HDFS_DATANODE_USER: root
+      HDFS_SECONDARYNAMENODE_USER: root
+      YARN_RESOURCEMANAGER_USER: root
+      YARN_NODEMANAGER_USER: root
+    command: ["yarn", "resourcemanager"]
+    volumes:
+      - ./hadoop-conf/core-site.xml:/opt/hadoop/etc/hadoop/core-site.xml
+      - ./hadoop-conf/mapred-site.xml:/opt/hadoop/etc/hadoop/mapred-site.xml
+      - ./hadoop-conf/yarn-site.xml:/opt/hadoop/etc/hadoop/yarn-site.xml
+    restart: always
+
+  nodemanager:
+    image: apache/hadoop:3.3.6
+    container_name: nodemanager
+    user: root
+    networks:
+      - hadoop-net
+    depends_on:
+      - resourcemanager
+    environment:
+      HDFS_NAMENODE_USER: root
+      HDFS_DATANODE_USER: root
+      HDFS_SECONDARYNAMENODE_USER: root
+      YARN_RESOURCEMANAGER_USER: root
+      YARN_NODEMANAGER_USER: root
+    command: ["yarn", "nodemanager"]
+    volumes:
+      - ./hadoop-conf/core-site.xml:/opt/hadoop/etc/hadoop/core-site.xml
+      - ./hadoop-conf/mapred-site.xml:/opt/hadoop/etc/hadoop/mapred-site.xml
+      - ./hadoop-conf/yarn-site.xml:/opt/hadoop/etc/hadoop/yarn-site.xml
+    restart: always
+
+  spark-master:
+    image: apache/spark:3.3.3
+    container_name: spark-master
+    ports:
+      - "8080:8080"
+      - "7077:7077"
+    command: /opt/spark/bin/spark-class org.apache.spark.deploy.master.Master
+    restart: always
+
+  spark-worker:
+    image: apache/spark:3.3.3
+    container_name: spark-worker
+    depends_on:
+      - spark-master
+    command: /opt/spark/bin/spark-class org.apache.spark.deploy.worker.Worker spark://spark-master:7077
+    restart: always
+
+  flink-jm:
+    image: apache/flink:1.17.0-scala_2.12-java11
+    container_name: flink-jobmanager
+    ports:
+      - "8081:8081"
+    command: jobmanager
+    environment:
+      FLINK_PROPERTIES: |
+        jobmanager.rpc.address: flink-jm
+    volumes:
+      - ./hadoop-conf/core-site.xml:/opt/hadoop/etc/hadoop/core-site.xml
+      - ./hadoop-conf/mapred-site.xml:/opt/hadoop/etc/hadoop/mapred-site.xml
+      - ./hadoop-conf/yarn-site.xml:/opt/hadoop/etc/hadoop/yarn-site.xml
+    depends_on:
+      - namenode
+      - resourcemanager
+    restart: always
+
+  flink-tm:
+    image: apache/flink:1.17.0-scala_2.12-java11
+    container_name: flink-taskmanager
+    command: taskmanager
+    environment:
+      FLINK_PROPERTIES: |
+        jobmanager.rpc.address: flink-jm
+        taskmanager.numberOfTaskSlots: 2
+    volumes:
+      - ./hadoop-conf/core-site.xml:/opt/hadoop/etc/hadoop/core-site.xml
+      - ./hadoop-conf/mapred-site.xml:/opt/hadoop/etc/hadoop/mapred-site.xml
+      - ./hadoop-conf/yarn-site.xml:/opt/hadoop/etc/hadoop/yarn-site.xml
+    depends_on:
+      - flink-jm
+    restart: always
+  devbox:
+    build:
+      context: ./devbox 
+      dockerfile: Dockerfile
+    container_name: devbox
+    networks:
+      - hadoop-net   # 加上这行
+    volumes:
+      # 挂载本地代码目录，宿主机./workspace映射容器/workspace
+      - ./workspace:/workspace
+      # 挂载项目根目录到 /project（在容器内编译运行）
+      - ../:/project
+      # 持久化maven依赖、pip缓存，不用每次重建重下载
+      - maven_repo:/root/.m2
+      - pip_cache:/root/.cache/pip
+      # 挂载Hadoop配置，可直接操作HDFS/YARN
+      - ./hadoop-conf:/opt/hadoop/etc/hadoop
+    environment:
+      TZ: Asia/Shanghai
+      JAVA_HOME: /opt/java/openjdk
+      HADOOP_HOME: /opt/hadoop
+      PATH: /opt/hadoop/bin:$PATH
+    ports:
+      - "2222:22"  # 可选ssh远程连接
+    depends_on:
+      - namenode
+      - resourcemanager
+      - spark-master
+      - flink-jm
+    stdin_open: true
+    tty: true
+    restart: unless-stopped
+  # 放在整个yml文件最后一行
+volumes:
+  namenode-data:
+  datanode-data:
+  maven_repo:
+  pip_cache:
+networks:
+  hadoop-net:
+    driver: bridge     

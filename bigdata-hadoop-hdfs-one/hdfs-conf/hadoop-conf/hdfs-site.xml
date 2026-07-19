@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<configuration>
+    <!-- 副本数设为 1（单节点模式） -->
+    <property>
+        <name>dfs.replication</name>
+        <value>1</value>
+    </property>
+
+    <!-- NameNode 元数据存储目录 -->
+    <property>
+        <name>dfs.namenode.name.dir</name>
+        <value>/hadoop/name</value>
+    </property>
+
+    <!-- DataNode 数据存储目录 -->
+    <property>
+        <name>dfs.datanode.data.dir</name>
+        <value>/tmp/hadoop-root/dfs/data</value>
+    </property>
+
+    <!-- NameNode 绑定所有网络接口 -->
+    <property>
+        <name>dfs.namenode.rpc-bind-host</name>
+        <value>0.0.0.0</value>
+    </property>
+
+    <property>
+        <name>dfs.namenode.http-bind-host</name>
+        <value>0.0.0.0</value>
+    </property>
+
+    <!-- DataNode 绑定所有网络接口 -->
+    <property>
+        <name>dfs.datanode.bind-host</name>
+        <value>0.0.0.0</value>
+    </property>
+
+    <!-- Docker 环境：DataNode 注册为 localhost，客户端通过端口映射访问 -->
+    <property>
+        <name>dfs.datanode.hostname</name>
+        <value>localhost</value>
+    </property>
+
+</configuration>
